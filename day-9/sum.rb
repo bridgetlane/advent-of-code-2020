@@ -48,17 +48,14 @@ def find_range(want=0, nums=[])
         i = index
         subset = []
         while total != want && i < nums.length
-            #printf "%d, %d\n", index, i
             if nums[i] >= want 
                 i = nums.length
                 next
             end
 
             total = total + nums[i]
-            #puts total
             subset << nums[i]
             if total == want
-                #puts subset
                 return subset
             end
 
