@@ -8,19 +8,16 @@ def read_nums
     return nums
 end
 
-def find_sums
-    nums = read_nums
+def find_sums(nums=[])
     preamble_length = 25
     found = false
 
     index = preamble_length
-    nums[preamble_length..-1].each  { |num|
+    nums[preamble_length..-1].each { |num|
         i = index - preamble_length
         j = index - preamble_length
-        while !found 
-            print "Adding"
+        while !found
             if nums[i] + nums[j] == num 
-                puts num
                 found = true
             end
             
@@ -29,7 +26,7 @@ def find_sums
                 j = i
             end
 
-            if i >= preamble_length 
+            if i >= index + preamble_length 
                 break
             end
 
@@ -45,4 +42,41 @@ def find_sums
     }
 end
 
-puts find_sums
+def find_range(want=0, nums=[])
+    nums.each_with_index { |num, index|
+        total = 0
+        i = index
+        subset = []
+        while total != want && i < nums.length
+            #printf "%d, %d\n", index, i
+            if nums[i] >= want 
+                i = nums.length
+                next
+            end
+
+            total = total + nums[i]
+            #puts total
+            subset << nums[i]
+            if total == want
+                #puts subset
+                return subset
+            end
+
+            i += 1
+        end
+
+        if total == want 
+            return subset
+        end
+    }
+
+    return []
+end
+
+def find_weakness(subset=0)
+    subset = subset.sort
+    return subset[0] + subset[-1]
+end
+
+nums = read_nums
+puts find_weakness(find_range(find_sums(nums), nums))
